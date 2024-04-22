@@ -48,7 +48,6 @@ public class MainController {
 
 	@GetMapping(path="/all")
 	public @ResponseBody Iterable<User> getAllUsers() {
-
 		if (random.nextInt(10) < 3) {
 			throw new RuntimeException("simulating an error");
 		}

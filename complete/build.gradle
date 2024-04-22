@@ -6,10 +6,26 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+	toolchain {
+		// specify JVM to use. If no matching version is found locally, one will be downloaded (see settings.gradle for resolver configuration)
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
 
 repositories {
 	mavenCentral()
+}
+
+tasks.named("bootRun") {
+	def agent = "$projectDir/agent/opentelemetry-javaagent.jar"
+	jvmArgs "-javaagent:$agent"
+	// enable native histogram feature
+	environment.put('OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION', 'base2_exponential_bucket_histogram')
+	environment.put('OTEL_SEMCONV_STABILITY_OPT_IN', 'http')
 }
 
 dependencyManagement {
@@ -24,9 +40,4 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation("io.opentelemetry:opentelemetry-api")
 	runtimeOnly('com.mysql:mysql-connector-j:8.3.0')
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-test {
-	useJUnitPlatform()
 }
