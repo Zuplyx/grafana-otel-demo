@@ -26,6 +26,10 @@ tasks.named("bootRun") {
 	// enable native histogram feature
 	environment.put('OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION', 'base2_exponential_bucket_histogram')
 	environment.put('OTEL_SEMCONV_STABILITY_OPT_IN', 'http')
+	environment.put('OTEL_RESOURCE_ATTRIBUTES','service.name=demo,service.instance.id=localhost:8080')
+	// use these if your opentelemtry collector is not running on localhost
+	//environment.put('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://example.com:4317')
+	//environment.put('OTEL_EXPORTER_OTLP_PROTOCOL', 'grpc')
 }
 
 dependencyManagement {
