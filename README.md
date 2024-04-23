@@ -11,7 +11,9 @@ with Grafana.
 ## Setup
 
 First start a MySql database. You can use the included [docker compose file](complete/docker-compose.yml): `docker compose up -d`.
+
 Next start the OpenTelemetry and Grafana [docker image](https://github.com/grafana/docker-otel-lgtm): `docker run -d -p 3000:3000 -p 4317:4317 -p 4318:4318 -ti grafana/otel-lgtm`.
+
 Now the application can be started via `./gradlew bootRun`.
 
 ## Start the application
