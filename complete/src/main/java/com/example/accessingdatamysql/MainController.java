@@ -42,7 +42,7 @@ public class MainController {
 		n.setEmail(email);
 		userRepository.save(n);
 		logger.info("User saved");
-		return ResponseEntity.status(HttpStatus.OK).body("Saved");
+		return ResponseEntity.status(HttpStatus.OK).body("Saved\n");
 	}
 
 	@GetMapping(path="/all")
