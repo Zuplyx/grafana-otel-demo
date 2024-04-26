@@ -16,12 +16,33 @@ java {
 	}
 }
 
+configurations {
+	otelAgent {
+		canBeConsumed = false
+		canBeResolved = false
+	}
+	otelAgentClasspath {
+		canBeConsumed = false
+	}
+}
+
+configurations.otelAgentClasspath.extendsFrom(configurations.otelAgent)
+
 repositories {
 	mavenCentral()
 }
 
+tasks.register('copyOtelAgent', Copy) {
+	from(configurations.otelAgentClasspath) {
+		rename('opentelemetry-javaagent.*', 'opentelemetry-javaagent.jar')
+	}
+	into layout.buildDirectory.dir('otelAgent')
+}
+
 tasks.named("bootRun") {
-	def agent = "$projectDir/agent/opentelemetry-javaagent.jar"
+	dependsOn tasks.named('copyOtelAgent')
+
+	def agent = layout.buildDirectory.file('otelAgent/opentelemetry-javaagent.jar').get().getAsFile().absolutePath
 	jvmArgs "-javaagent:$agent"
 	// enable native histogram feature
 	environment.put('OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION', 'base2_exponential_bucket_histogram')
@@ -44,4 +65,5 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation("io.opentelemetry:opentelemetry-api")
 	runtimeOnly('com.mysql:mysql-connector-j:8.3.0')
+	otelAgent 'io.opentelemetry.javaagent:opentelemetry-javaagent:2.3.0'
 }
