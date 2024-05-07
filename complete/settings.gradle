@@ -2,4 +2,4 @@ plugins {
     // allows downloading JVMs if necessary: https://github.com/gradle/disco-toolchains
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
-rootProject.name = 'accessing-data-mysql'
+rootProject.name = 'grafana-otel-demo'
