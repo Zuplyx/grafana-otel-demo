@@ -65,5 +65,5 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation("io.opentelemetry:opentelemetry-api")
 	runtimeOnly('com.mysql:mysql-connector-j:8.3.0')
-	otelAgent 'io.opentelemetry.javaagent:opentelemetry-javaagent:2.3.0'
+	otelAgent 'io.opentelemetry.javaagent:opentelemetry-javaagent:2.4.0'
 }
